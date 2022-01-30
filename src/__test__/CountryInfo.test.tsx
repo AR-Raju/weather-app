@@ -25,8 +25,8 @@ describe("CountryInfo", () => {
         <CountryInfo />
       </Router>
     );
-    // const countryInfo = screen.getByTestId("countryInfo");
-    // expect(countryInfo).toBeInTheDocument();
+    const countryInfo = screen.getByTestId("countryInfo");
+    expect(countryInfo).toBeInTheDocument();
     expect(screen.getByText(/Dhaka/)).toBeInTheDocument();
   });
 });
