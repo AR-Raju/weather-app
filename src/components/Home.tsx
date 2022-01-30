@@ -1,4 +1,4 @@
-import { Button, TextField } from "@material-ui/core";
+import { Button, Input, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -16,6 +16,7 @@ const Home = () => {
   };
   return (
     <div
+      data-testid="home"
       style={{
         display: "grid",
         justifyContent: "center",
@@ -24,15 +25,23 @@ const Home = () => {
         width: "100%",
         gap: "20px",
       }}
-      data-testid="home"
     >
       <h3>Home</h3>
       <TextField
+        inputProps={{
+          "data-testid": "country_input",
+        }}
         value={countryName}
         placeholder="Enter Country Name"
         onChange={handleInput}
       />
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button
+        data-testid="submit"
+        variant="contained"
+        color="primary"
+        disabled={!countryName}
+        onClick={handleSubmit}
+      >
         Get Details
       </Button>
     </div>

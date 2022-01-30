@@ -57,7 +57,6 @@ const CountryInfo = () => {
       console.log(e);
     }
   };
-
   const getWeatherInfo = async () => {
     try {
       setWeatherLoading(true);
@@ -88,7 +87,7 @@ const CountryInfo = () => {
       data-testid="countryInfo"
     >
       {loading ? (
-        <p>Loading...</p>
+        <p>Loading country data...</p>
       ) : (
         <Card style={{ display: "flex" }}>
           <Box style={{ display: "flex", flexDirection: "column" }}>
@@ -96,7 +95,11 @@ const CountryInfo = () => {
               <Typography component="div" variant="h5">
                 Country Information
               </Typography>
-              <Typography variant="subtitle1" component="div">
+              <Typography
+                data-testid="capital"
+                variant="subtitle1"
+                component="div"
+              >
                 Capital: {countryInfo?.capital[0]}
               </Typography>
               <Typography variant="subtitle1" component="div">
@@ -126,18 +129,22 @@ const CountryInfo = () => {
         </Button>
       )}
       {weatherLoading ? (
-        <p>Loading...</p>
+        <p>Loading capital weather info...</p>
       ) : (
         weatherInfo && (
           <Card style={{ display: "flex" }}>
             <Box style={{ display: "flex", flexDirection: "column" }}>
               <CardContent style={{ flex: "1 0 auto" }}>
                 <Typography component="div" variant="h5">
-                  {name} Capital {countryInfo?.capital[0]} Weather Information
+                  {name}'s Capital {countryInfo?.capital[0]} Weather Information
                 </Typography>
                 <CardMedia
                   component="img"
-                  style={{ width: "100px", height: "100px" }}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "50%",
+                  }}
                   image={weatherInfo?.weather_icons[0]}
                   alt="Live from Country Api"
                 />
