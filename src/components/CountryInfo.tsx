@@ -8,29 +8,15 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getCountryData, getWeatherData } from "../api/countryAPI";
+import { InitCountryInfo, InitWeatherInfo } from "../interfaceModel/Interfaces";
 
-export interface InitCountryInfo {
-  capital: string[];
-  population: number;
-  latlng: number[];
-  flags: {
-    svg: string;
-  };
-}
-
-export interface InitWeatherInfo {
-  temperature: number;
-  weather_icons: string[];
-  wind_speed: number;
-  precip: number;
-}
-
-export interface InitProps {
+export interface InitParamsProps {
   name: string;
 }
 
 const CountryInfo = () => {
-  const { name } = useParams<InitProps>();
+  const { name } = useParams<InitParamsProps>();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [weatherLoading, setWeatherLoading] = useState<boolean>(false);
@@ -46,10 +32,7 @@ const CountryInfo = () => {
     try {
       setLoading(true);
 
-      const res = await fetch(`https://restcountries.com/v3.1/name/${name}`);
-      const data = await res.json();
-
-      setCountryInfo(data[0]);
+      getCountryData(name).then((data) => setCountryInfo(data[0]));
 
       setLoading(false);
     } catch (e) {
@@ -61,12 +44,9 @@ const CountryInfo = () => {
     try {
       setWeatherLoading(true);
 
-      const res = await fetch(
-        `http://api.weatherstack.com/current?access_key=39ebf5f7a9365e8f8fd51d43b7922862&query=${countryInfo?.capital[0]}`
+      getWeatherData(countryInfo?.capital[0]).then((data) =>
+        setWeatherInfo(data.current)
       );
-      const data = await res.json();
-
-      setWeatherInfo(data.current);
 
       setWeatherLoading(false);
     } catch (e) {
@@ -93,7 +73,7 @@ const CountryInfo = () => {
           <Box style={{ display: "flex", flexDirection: "column" }}>
             <CardContent style={{ flex: "1 0 auto" }}>
               <Typography component="div" variant="h5">
-                Country Information
+                {name} Information
               </Typography>
               <Typography
                 data-testid="capital"

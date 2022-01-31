@@ -1,24 +1,12 @@
 import React from "react";
-import { render, screen, act } from "@testing-library/react";
-import CountryInfo, { InitCountryInfo } from "../components/CountryInfo";
+import { render, screen } from "@testing-library/react";
+import CountryInfo from "../components/CountryInfo";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
-global.fetch = jest.fn(() => {
-  const country = {
-    capital: ["Dhaka"],
-    population: 1234,
-    latlng: [1, 2],
-    flags: {
-      svg: "image link",
-    },
-  } as InitCountryInfo;
-  Promise.resolve({
-    json: () => Promise.resolve(country),
-  });
-}) as jest.Mock;
+import { getCountryData, getWeatherData } from "../api/countryAPI";
 
-describe("CountryInfo", () => {
-  it("loads the country on mount", async () => {
+describe("CountryInfo component and unit testing=>", () => {
+  it("should render component", () => {
     const history = createMemoryHistory();
     render(
       <Router history={history}>
@@ -27,6 +15,18 @@ describe("CountryInfo", () => {
     );
     const countryInfo = screen.getByTestId("countryInfo");
     expect(countryInfo).toBeInTheDocument();
-    expect(screen.getByText(/Dhaka/)).toBeInTheDocument();
+  });
+
+  it("should load country data", async () => {
+    return await getCountryData("Bangladesh").then((data) => {
+      expect(data).toBeDefined();
+      expect(data[0].capital[0]).toEqual("Dhaka");
+    });
+  });
+
+  it("should load capital weather data", async () => {
+    return await getWeatherData("Dhaka").then((data) => {
+      expect(data).toBeDefined();
+    });
   });
 });

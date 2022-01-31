@@ -32,10 +32,4 @@ describe("App testing", () => {
 
     expect(submit).not.toHaveClass("Mui-disabled");
   });
-
-  // test("renders home test", () => {
-  //   render(<Home />);
-  //   const linkElement = screen.getByTestId("home");
-  //   expect(linkElement).toBeInTheDocument();
-  // });
 });
