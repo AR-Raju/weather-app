@@ -13,7 +13,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/country/:name" component={CountryInfo} />
-          <Route component={NoMatch} />
+          <Route path="*" component={NoMatch} />
         </Switch>
       </BrowserRouter>
     </div>
